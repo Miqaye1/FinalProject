@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "486598561013",
+    "project_id": "mind-bdb93",
+    "storage_bucket": "mind-bdb93.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:486598561013:android:c650145de0f081be50c9bc",
+        "android_client_info": {
+          "package_name": "com.example.mind"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "486598561013-tmnic4chktv85m3fsqsrhglar4udvtsh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2nNJo1eeWnOxu0hMx5O4b93LW5Iahfx0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "486598561013-tmnic4chktv85m3fsqsrhglar4udvtsh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
