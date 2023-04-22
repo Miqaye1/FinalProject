@@ -15,7 +15,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -55,26 +54,23 @@ public class SignupActivity extends AppCompatActivity {
                     CustomToast.showErrorToast(SignupActivity.this, "An error occurred!", "Name and surname should be at least 2 characters", 1000);
                 }
                 else {
-                    Query emailQuery = usersRef.whereEqualTo("email", email);
-                    emailQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    CustomToast.showErrorToast(SignupActivity.this, "An error occurred!", "You have already registered with this email", 1000);
-                                    return;
+                    usersRef.whereEqualTo("email", email)
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful() && task.getResult().isEmpty()) {
+                                        DatabaseHelper helperClass = new DatabaseHelper(name, surname, email, password);
+                                        String userId = UUID.randomUUID().toString();
+                                        DocumentReference userDocRef = usersRef.document(userId);
+                                        userDocRef.set(helperClass);
+                                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                        startActivity(intent);
+                                    } else {
+                                        CustomToast.showErrorToast(SignupActivity.this, "An error occurred!", "You have already registered with this email", 1000);
+                                    }
                                 }
-                                DatabaseHelper helperClass = new DatabaseHelper(name, surname, email, password);
-                                String userId = UUID.randomUUID().toString();
-                                DocumentReference userDocRef = usersRef.document(userId);
-                                userDocRef.set(helperClass);
-                                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                                startActivity(intent);
-                            } else {
-                                CustomToast.showErrorToast(SignupActivity.this, "An error occurred!", "Please check your internet connection", 1000);
-                            }
-                        }
-                    });
+                            });
                 }
             }
         });
